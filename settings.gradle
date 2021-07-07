@@ -1,0 +1,2 @@
+rootProject.name = "TW_FieldBoss_Alarm"
+include ':app'

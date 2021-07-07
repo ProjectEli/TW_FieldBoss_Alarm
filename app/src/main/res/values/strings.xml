@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">테일즈위버 필드보스 알람</string>
+
+    <!-- 전체 활성/비활성화 버튼 -->
+    <string name="Enable_disable_all">전체 알람 활성화/비활성화</string>
+
+    <!-- 보스 종류 -->
+    <string name="Fieldboss_type">필드보스 종류</string>
+
+    <string name="golon">골론 (베리넨 루미)</string>
+    <string name="golon_summary">0, 6, 12, 18시</string>
+
+    <string name="golmodap">골모답 (베리넨 루미)</string>
+    <string name="golmodap_summary">5, 13, 21시</string>
+
+    <string name="arkan">아칸 (아크론 요새)</string>
+    <string name="arkan_summary">2시 반, 9시 반</string>
+
+    <string name="sperchend">스페르첸드 (아크론 지하요새)</string>
+    <string name="sperchend_summary">1, 4, 8, 16, 19, 23시</string>
+
+    <string name="defense">프라바 방어전 (프라바 전초기지)</string>
+    <string name="defense_summary">짝수 시(0, 2, 4 ... 22시)</string>
+
+    <!-- 알람 시간 -->
+    <string name="alarm_time">알람 시간</string>
+
+    <string name="alarm_10min">10분 전</string>
+    <string name="alarm_5min">5분 전</string>
+    <string name="alarm_3min">3분 전</string>
+    <string name="alarm_1min">1분 전</string>
+
+    <!-- 버전 정보 -->
+    <string name="version_info">버전 정보</string>
+    <string name="version">버전: v1.0 (beta)</string>
+
+</resources>
