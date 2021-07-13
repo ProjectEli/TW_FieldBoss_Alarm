@@ -34,4 +34,10 @@
     <string name="version_info">버전 정보</string>
     <string name="version">버전: v1.0 (beta)</string>
 
+
+    <string name="channel_name">알림채널이름</string>
+    <string name="channel_description">알림채널설명</string>
+    <string name="alarm_text">필드보스 알람: %1$s</string>
+
+
 </resources>
