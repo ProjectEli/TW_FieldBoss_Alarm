@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="golonSwitch" type="id"/>
+    <item name="golmodapSwitch" type="id"/>
+    <item name="arkanSwitch" type="id"/>
+    <item name="sperchendSwitch" type="id"/>
+    <item name="defenseSwitch" type="id"/>
+    <item name="alarm_10minSwitch" type="id"/>
+    <item name="alarm_5minSwitch" type="id"/>
+    <item name="alarm_3minSwitch" type="id"/>
+    <item name="alarm_1minSwitch" type="id"/>
+    
+</resources>
