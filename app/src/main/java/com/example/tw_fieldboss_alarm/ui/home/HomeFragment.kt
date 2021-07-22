@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tw_fieldboss_alarm.FullscreenAlarm
+import com.example.tw_fieldboss_alarm.MainActivity
 import com.example.tw_fieldboss_alarm.R
 import com.example.tw_fieldboss_alarm.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +22,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
-    val notificationId = 3389 // 일회성임. 이걸 저장해야 나중에 알람 추적 가능
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
             snackBar.setAction(R.string.undo_string, SnackBarUndoListener())
             snackBar.show()
 
-            val intent = Intent(context, HomeFragment::class.java).apply {
+            val intent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 //            val fullScreenIntent = Intent(context, FullScreenActivity::class.java)
 //            val fullScreenPendingIntent = PendingIntent.getActivity(context, 0,
@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
             var builder =
                 context?.let { context ->
-                    NotificationCompat.Builder(context, getString(R.string.notification_channel_name))
+                    NotificationCompat.Builder(context, getString(R.string.normal_notification_channel_id))
                         .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
                         .setContentTitle("[베리넨 루미] 골론")
                         .setContentText("1분 전!!! 베리넨 루미로 가세요! 어서!") // lower API level or 확장전 한줄알림
@@ -76,7 +76,8 @@ class HomeFragment : Fragment() {
                 }
             with (context?.let { context -> NotificationManagerCompat.from(context) }) {
                 if (builder != null) {
-                    this?.notify(notificationId,builder.build())
+                    this?.notify(R.id.normal_notification_id, // 일회성임. 이걸 저장해야 나중에 알람 추적 가능
+                        builder.build())
                 }
             }
         }

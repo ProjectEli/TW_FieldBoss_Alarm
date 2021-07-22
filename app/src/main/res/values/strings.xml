@@ -2,16 +2,15 @@
     <string name="app_name">테일즈위버 필드보스 알람</string>
     <string name="title_home">홈</string>
     <string name="title_dashboard">대시보드</string>
-    <string name="title_notifications">알람 목록</string>
+    <string name="title_notifications">알람 설정</string>
     <string name="notification_button">알림 보내기</string>
     <string name="undo_string">실행 취소</string>
     <string name="notificationViewString">알림 프래그먼트입니다</string>
     <string name="HomeViewString">홈 프래그먼트입니다.</string>
     <string name="DashboardViewString">대시보드 프래그먼트입니다.</string>
 
-    <string name="notification_channel_id">notificationChannelId</string>
-    <string name="notification_channel_name">notificationChannel</string>
-    <string name="notification_channel_description">알림채널용 설명</string>
+
+
     <string name="fullscreen_notification_button">전체화면 알림 띄우기</string>
     <string name="Enable_disable_all">전체 알람 활성화/비활성화</string>
     <string name="Fieldboss_type">필드보스 종류</string>
@@ -34,4 +33,12 @@
     <string name="fieldbossTypeText">필드보스 종류</string>
     <string name="all_sync_text">전체 알람 활성화/비활성화</string>
     <string name="fieldbossTimeText">알람 시간</string>
+
+    <string name="high_priority_fullscreen_channel_id">high_priority_fullscreen_channel_id_string</string>
+    <string name="fullscreen_alarm_action">fullscreen_alarm_action_string</string>
+
+    <string name="normal_notification_channel_id">normal_notification_channel_id_string</string>
+    <string name="normal_notification_channel_name">샹단바 알림</string>
+    <string name="normal_notification_channel_description">상단바 알림입니다.</string>
+
 </resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="@string/Enable_disable_all"
+        app:key="전체 알람 활성화" />
+
+    <PreferenceCategory app:title="@string/Fieldboss_type">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="골론 알람"
+            android:summary="@string/golon_time"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/golon" />
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="골모답 알람"
+            android:summary="@string/golmodap_time"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/golmodap" />
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="아칸 알람"
+            android:summary="@string/arkan_time"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/arkan" />
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="스페르첸드 알람"
+            android:summary="@string/sperchend_time"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/sperchend" />
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="프라바 방어전 알람"
+            android:summary="@string/defense_time"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/defense" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/alarm_time">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="10분 전 알람"
+            android:title="@string/alarm_10min"
+            app:dependency="전체 알람 활성화" />
+        <SwitchPreference
+            android:defaultValue="false"
+            app:key="5분 전 알람"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/alarm_5min" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="@string/alarm_3min"
+            app:key="3분 전 알람"
+            app:dependency="전체 알람 활성화" />
+        <SwitchPreference
+            android:defaultValue="true"
+            app:key="1분 전 알람"
+            app:dependency="전체 알람 활성화"
+            android:title="@string/alarm_1min" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/version_info">
+        <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="version_name"
+            android:title="버전 정보 확인 불가" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

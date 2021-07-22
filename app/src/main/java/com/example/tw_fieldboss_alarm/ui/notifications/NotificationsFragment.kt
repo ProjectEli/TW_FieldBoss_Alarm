@@ -1,16 +1,29 @@
 package com.example.tw_fieldboss_alarm.ui.notifications
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.util.Log
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.tw_fieldboss_alarm.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
+import com.example.tw_fieldboss_alarm.AlarmsApplication
+import com.example.tw_fieldboss_alarm.BuildConfig
+import com.example.tw_fieldboss_alarm.Prefs
+import com.example.tw_fieldboss_alarm.R
 import com.example.tw_fieldboss_alarm.databinding.FragmentNotificationsBinding
+import com.example.tw_fieldboss_alarm.ui.dashboard.DashboardFragment
+import java.util.*
 
-class NotificationsFragment : Fragment() {
-
+class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var notificationsViewModel: NotificationsViewModel
     private var _binding: FragmentNotificationsBinding? = null
 
@@ -18,51 +31,85 @@ class NotificationsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.alarm_preferences,rootKey)
+
+        _binding = FragmentNotificationsBinding.inflate(layoutInflater)
         notificationsViewModel =
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val pref: Preference = findPreference("version_name") ?: return
+        if (pref != null) {
+            pref.title = BuildConfig.VERSION_NAME
+        }
 
-//        val textView: TextView = binding.textNotifications
-//        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
-        val recyclerView = binding.recyclerView
-        recyclerView.setHasFixedSize(true) // 왜넣는지는 모르겠지만 넣음
-//        val layoutManager = LinearLayoutManager(context)
-
-        val optionList: List<SwitchData> = mutableListOf(
-            SwitchData(getString(R.string.golon),getString(R.string.golon_time),true,R.id.golonSwitch),
-            SwitchData(getString(R.string.golmodap),getString(R.string.golmodap_time),true,R.id.golmodapSwitch),
-            SwitchData(getString(R.string.arkan),getString(R.string.arkan_time),true,R.id.arkanSwitch),
-            SwitchData(getString(R.string.sperchend),getString(R.string.sperchend_time),true,R.id.sperchendSwitch),
-            SwitchData(getString(R.string.defense),getString(R.string.defense_time),true,R.id.defenseSwitch)
-        )
-
-        val optionViewAdapter = OptionViewAdapter(optionList)
-        binding.recyclerView.adapter = optionViewAdapter
-
-
-        val recyclerView2 = binding.recyclerView2
-        recyclerView2.setHasFixedSize(true)
-        val optionList2: List<SwitchDataWithoutSubstring> = mutableListOf(
-            SwitchDataWithoutSubstring(getString(R.string.alarm_10min),true,R.id.alarm_10minSwitch),
-            SwitchDataWithoutSubstring(getString(R.string.alarm_5min),true,R.id.alarm_5minSwitch),
-            SwitchDataWithoutSubstring(getString(R.string.alarm_3min),true,R.id.alarm_5minSwitch),
-            SwitchDataWithoutSubstring(getString(R.string.alarm_1min),true,R.id.alarm_1minSwitch)
-        )
-        val optionViewAdapter2 = OptionViewAdapter2(optionList2)
-        binding.recyclerView2.adapter = optionViewAdapter2
-
-        return root
+        if (activity != null) {
+            val prefs = Prefs.with(requireActivity())
+        }
     }
+
+    override fun onResume() {
+        super.onResume()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        val value = sharedPreferences?.getBoolean(key,false)
+        val valueString = if (value!!) "켜짐" else "꺼짐"
+
+        Toast.makeText(context,"$key 값이 ${valueString}으로 변경되었습니다.",Toast.LENGTH_SHORT).show()
+        when (key) {
+            "골론 알람" -> {
+                setFragmentResult("requestKey",
+                    bundleOf("00시 0분, 골론" to valueString, "06시 0분, 골론" to valueString,
+                        "12시 0분, 골론" to valueString, "18시 0분, 골론" to valueString
+                    ))
+
+
+//                val timeZone: TimeZone = TimeZone.getTimeZone("Asia/Seoul")
+//                val calendar: Calendar = Calendar.getInstance(timeZone).apply {
+//                    timeInMillis = System.currentTimeMillis()
+//                    set(Calendar.HOUR_OF_DAY,2)
+//                    set(Calendar.MINUTE,44)
+//                    set(Calendar.SECOND,0)
+//                }
+//
+//                // 알람시간관련 정확하게 하려면 setRepeating으로는 안된다. setExact로 하고 알람 표시하자마자 다음꺼 생성해야됨
+//                // https://superwony.tistory.com/99
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 도즈모드 대응
+//                    alarmMgr?.setExactAndAllowWhileIdle(
+//                        AlarmManager.RTC_WAKEUP,
+//                        calendar.timeInMillis,
+//                        alarmIntent
+//                    )
+//                }
+//                else {
+//                    alarmMgr?.set( // 킷캣이하버전 대응
+//                        AlarmManager.RTC_WAKEUP,
+//                        calendar.timeInMillis,
+//                        alarmIntent
+//                    )
+//                }
+            }
+
+            "골모답 알람" -> {
+                setFragmentResult("requestKey",
+                    bundleOf("05시 0분, 골모답" to valueString, "13시 0분, 골모답" to valueString,
+                        "21시 0분, 골모답" to valueString
+                    ))
+            }
+            else -> {
+
+            }
+        }
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

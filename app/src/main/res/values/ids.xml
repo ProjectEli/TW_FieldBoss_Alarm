@@ -9,5 +9,8 @@
     <item name="alarm_5minSwitch" type="id"/>
     <item name="alarm_3minSwitch" type="id"/>
     <item name="alarm_1minSwitch" type="id"/>
+
+    <item name="normal_notification_id" type="id"/>
+    <item name="high_priority_fullscreen_notification_id" type="id"/>
     
 </resources>
