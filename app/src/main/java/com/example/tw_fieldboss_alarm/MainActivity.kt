@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     private var alarmMgr: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
     val fullscreenNotificationChannelId = "fullScreenNotificationChannelId"
-//    private val alarmViewModel: AlarmViewModel by viewModels {
-//        AlarmViewModelFactory((this?.application as AlarmsApplication).repository)
-//    }
+    private val alarmViewModel: AlarmViewModel by viewModels {
+        AlarmViewModelFactory((application as AlarmsApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,30 +57,10 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
         createAlarmManager()
 
-
-//        val binding2 = FragmentDashboardBinding.inflate(layoutInflater)
-//        val recyclerView = binding2.recyclerview
-//        val adapter = AlarmListAdapter()
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//
-//        // observer한다.
-//        alarmViewModel.allAlarms.observe(this, Observer { alarms ->
-//            alarms?.let { adapter.submitList(it) }
-//        })
-//
-//        setResultListener("requestKey") { key,bundle ->
-//            listOf<String>("00시 0분, 골론","06시 0분, 골론","12시 0분, 골론","18시 0분, 골론",
-//                "05시 0분, 골모답", "13시 0분, 골모답", "21시 0분, 골모답").forEach {
-//                bundle.getString(it).let { result ->
-//                    if (result == "켜짐") {
-//                        alarmViewModel.insert(Alarm(it))
-//                    } else {
-//                        alarmViewModel.delete(Alarm(it))
-//                    }
-//                }
-//            }
-//        }
+        // observer한다.
+        alarmViewModel.allAlarms.observe(this) { alarms ->
+            alarms.let { alarmViewModel.adapter.submitList(it) }
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.tw_fieldboss_alarm
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -34,6 +35,7 @@ abstract class AlarmRoomDatabase: RoomDatabase() {
 
         private class AlarmDataBaseCallback(private val scope: CoroutineScope): RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
+                Log.d("EliAlarmDb","DB 생성됨")
                 super.onCreate(db)
                 INSTANCE?.let { database -> scope.launch {
                     populateDatabase(database.alarmDao())
@@ -42,7 +44,7 @@ abstract class AlarmRoomDatabase: RoomDatabase() {
         }
 
         suspend fun populateDatabase(alarmDao: AlarmDao) {
-            // alarmDao.deleteAll() // delete all content here
+            alarmDao.deleteAll() // delete all content here
 
             // add sample alarms
 //            var alarm = Alarm("오후 9시 00분, 골모답")

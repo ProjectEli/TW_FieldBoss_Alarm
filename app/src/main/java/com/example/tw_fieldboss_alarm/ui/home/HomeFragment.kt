@@ -31,65 +31,72 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
 
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        // 먼저 inflate를 하고 나중에 LiveData로 모니터링한다.
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // UI components 목록
         val textView: TextView = binding.textHome
+        val notificationButton = binding.buttonNotificationHome
+        val fullScreenNotificationButton = binding.buttonFullscreenActivityHome
+
+        // 텍스트 채우기
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            textView.text = getString(R.string.HomeViewString)
         })
 
-        // 알림 보내기 버튼
-        val notificationButton = binding.buttonNotification//.findViewById<Button>(R.id.button_notification)
-
+        // onClickListener definitions
         notificationButton.setOnClickListener {
             val snackBar = Snackbar.make(binding.HomeLayout,"상단바 알림을 보냈습니다.",Snackbar.LENGTH_SHORT)
             snackBar.setAction(R.string.undo_string, SnackBarUndoListener())
             snackBar.show()
+            sendNotification()
 
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-//            val fullScreenIntent = Intent(context, FullScreenActivity::class.java)
-//            val fullScreenPendingIntent = PendingIntent.getActivity(context, 0,
-//                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            var builder =
-                context?.let { context ->
-                    NotificationCompat.Builder(context, getString(R.string.normal_notification_channel_id))
-                        .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
-                        .setContentTitle("[베리넨 루미] 골론")
-                        .setContentText("1분 전!!! 베리넨 루미로 가세요! 어서!") // lower API level or 확장전 한줄알림
-                        .setStyle(NotificationCompat.BigTextStyle() // higher API level
-                            .bigText("1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요!"))
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                        // Set the intent that will fire when the user taps the notification
-                        .setContentIntent(pendingIntent)
-                        .setAutoCancel(true)
-//                        .setFullScreenIntent(fullScreenPendingIntent, true)
-                }
-            with (context?.let { context -> NotificationManagerCompat.from(context) }) {
-                if (builder != null) {
-                    this?.notify(R.id.normal_notification_id, // 일회성임. 이걸 저장해야 나중에 알람 추적 가능
-                        builder.build())
-                }
-            }
         }
 
-        // 전체화면 알림 띄우기 버튼
-        val fullScreennotificationButton = binding.buttonFullscreenActivity
-        fullScreennotificationButton.setOnClickListener {
+        fullScreenNotificationButton.setOnClickListener {
             val intent = Intent(context,FullscreenAlarm::class.java)
             context?.startActivity(intent)
         }
 
         return root
+    }
+
+    private fun sendNotification() {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+//            val fullScreenIntent = Intent(context, FullScreenActivity::class.java)
+//            val fullScreenPendingIntent = PendingIntent.getActivity(context, 0,
+//                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        var builder =
+            context?.let { context ->
+                NotificationCompat.Builder(context, getString(R.string.normal_notification_channel_id))
+                    .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
+                    .setContentTitle("[베리넨 루미] 골론")
+                    .setContentText("1분 전!!! 베리넨 루미로 가세요! 어서!") // lower API level or 확장전 한줄알림
+                    .setStyle(NotificationCompat.BigTextStyle() // higher API level
+                        .bigText("1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요!"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+//                        .setFullScreenIntent(fullScreenPendingIntent, true)
+            }
+        with (context?.let { context -> NotificationManagerCompat.from(context) }) {
+            if (builder != null) {
+                this?.notify(R.id.normal_notification_id, // 일회성임. 이걸 저장해야 나중에 알람 추적 가능
+                    builder.build())
+            }
+        }
     }
 
     override fun onDestroyView() {

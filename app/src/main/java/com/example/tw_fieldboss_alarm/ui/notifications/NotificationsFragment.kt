@@ -38,7 +38,7 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         notificationsViewModel =
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
-        val pref: Preference = findPreference("version_name") ?: return
+        val pref: Preference = findPreference(R.id.versionName.toString()) ?: return
         if (pref != null) {
             pref.title = BuildConfig.VERSION_NAME
         }

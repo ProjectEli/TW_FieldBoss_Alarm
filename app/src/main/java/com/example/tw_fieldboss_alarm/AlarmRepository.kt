@@ -20,4 +20,9 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
     suspend fun delete(alarm: Alarm) {
         alarmDao.delete(alarm)
     }
+
+    @WorkerThread
+    suspend fun deleteAll() {
+        alarmDao.deleteAll()
+    }
 }

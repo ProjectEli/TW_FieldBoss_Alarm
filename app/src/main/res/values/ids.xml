@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="golonSwitch" type="id"/>
-    <item name="golmodapSwitch" type="id"/>
-    <item name="arkanSwitch" type="id"/>
-    <item name="sperchendSwitch" type="id"/>
-    <item name="defenseSwitch" type="id"/>
-    <item name="alarm_10minSwitch" type="id"/>
-    <item name="alarm_5minSwitch" type="id"/>
-    <item name="alarm_3minSwitch" type="id"/>
-    <item name="alarm_1minSwitch" type="id"/>
+
+    <!--  menu/bottom_nav_menu.xml  -->
+    <!--  navigation/mobile_navigation.xml  -->
+    <item name="navigation_home" type="id"/>
+    <item name="navigation_dashboard" type="id"/>
+    <item name="navigation_notifications" type="id"/>
+
+    <!--  layout/activity_main_xml  -->
+    <item name="nav_view" type="id"/>
+    <item name="nav_host_fragment_activity_main" type="id"/>
+
+    <!--  layout/fragment_home.xml  -->
+    <item name="text_home" type="id"/>
+    <item name="button_notification_home" type="id"/>
+
+    <!--  layout/fragment_dashboard.xml  -->
+    <item name="nextAlarmList_dashboard" type="id"/>
+    <item name="recyclerview" type="id"/>
+
+    <!--  xml/alarm_preference.xml  -->
+
+    <item name="versionName" type="id"/>
 
     <item name="normal_notification_id" type="id"/>
     <item name="high_priority_fullscreen_notification_id" type="id"/>
-    
+    <item name="button_fullscreen_activity_home" type="id"/>
+
+
+
 </resources>

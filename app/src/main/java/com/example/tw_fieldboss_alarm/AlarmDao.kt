@@ -15,5 +15,6 @@ interface AlarmDao {
     suspend fun deleteAll()
 
     @Delete
+//    suspend fun delete(alarm: Alarm)
     suspend fun delete(vararg alarms: Alarm)
 }

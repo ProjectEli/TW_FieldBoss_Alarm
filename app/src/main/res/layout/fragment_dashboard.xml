@@ -7,19 +7,20 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <TextView
-        android:id="@+id/nextAlarmList"
+        android:id="@id/nextAlarmList_dashboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="   다음 알람 목록"
+        android:text="@string/nextAlarmList"
         android:layout_marginTop="8dp"
-        android:paddingLeft="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toTopOf="@id/recyclerview"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@id/recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:listitem="@layout/recyclerview_alarm_item"
@@ -27,6 +28,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nextAlarmList" />
+        app:layout_constraintTop_toBottomOf="@id/nextAlarmList_dashboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

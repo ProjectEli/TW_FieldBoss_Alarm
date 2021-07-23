@@ -8,7 +8,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <TextView
-        android:id="@+id/text_home"
+        android:id="@id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -24,18 +24,18 @@
         android:gravity="center_horizontal" />
 
     <Button
-        android:id="@+id/button_notification"
+        android:id="@id/button_notification_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/notification_button"
-        app:layout_constraintBottom_toTopOf="@id/button_fullscreen_activity"
+        app:layout_constraintBottom_toTopOf="@id/button_fullscreen_activity_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_home" />
 
     <Button
-        android:id="@+id/button_fullscreen_activity"
+        android:id="@id/button_fullscreen_activity_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -43,5 +43,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_notification" />
+        app:layout_constraintTop_toBottomOf="@id/button_notification_home" />
 </androidx.constraintlayout.widget.ConstraintLayout>
