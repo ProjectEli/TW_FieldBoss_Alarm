@@ -35,7 +35,7 @@
             app:dependency="@string/enableAllAlarmSwitch"
             android:title="@string/sperchend" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             app:key="@string/defenseSwitch"
             android:summary="@string/defense_time"
             app:dependency="@string/enableAllAlarmSwitch"

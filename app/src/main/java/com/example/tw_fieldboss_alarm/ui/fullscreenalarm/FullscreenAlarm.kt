@@ -1,4 +1,4 @@
-package com.example.tw_fieldboss_alarm
+package com.example.tw_fieldboss_alarm.ui.fullscreenalarm
 
 import android.animation.*
 import android.annotation.SuppressLint

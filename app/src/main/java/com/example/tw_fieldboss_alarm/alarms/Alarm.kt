@@ -1,4 +1,4 @@
-package com.example.tw_fieldboss_alarm
+package com.example.tw_fieldboss_alarm.alarms
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

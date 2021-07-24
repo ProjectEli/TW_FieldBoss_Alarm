@@ -1,4 +1,4 @@
-package com.example.tw_fieldboss_alarm
+package com.example.tw_fieldboss_alarm.alarms
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
         alarmKeyList[0] to listOf<String>("00시 00분, 골론","06시 00분, 골론","12시 00분, 골론","18시 00분, 골론"),
         alarmKeyList[1] to listOf<String>("05시 00분, 골모답", "13시 00분, 골모답", "21시 00분, 골모답"),
         alarmKeyList[2] to listOf<String>("14시 30분, 아칸", "21시 30분, 아칸"),
-        alarmKeyList[3] to listOf<String>("01시 00분, 스페르첸드", "04시 00분, 스페르첸드",
+        alarmKeyList[3] to listOf<String>("01시 00분, 스페르첸드", "04시 00분, 스페르첸드","08시 00분, 스페르첸드",
             "16시 00분, 스페르첸드", "19시 00분, 스페르첸드", "23시 00분, 스페르첸드"),
         alarmKeyList[4] to listOf<String>("00시 00분, 프라바 방어전", "02시 00분, 프라바 방어전",
             "04시 00분, 프라바 방어전", "06시 00분, 프라바 방어전", "08시 00분, 프라바 방어전",

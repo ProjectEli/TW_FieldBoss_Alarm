@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:launchMode="singleTop"
-            android:name=".FullscreenAlarm"
+            android:name=".ui.fullscreenalarm.FullscreenAlarm"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data

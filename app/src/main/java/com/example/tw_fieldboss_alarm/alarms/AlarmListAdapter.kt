@@ -1,4 +1,4 @@
-package com.example.tw_fieldboss_alarm
+package com.example.tw_fieldboss_alarm.alarms
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tw_fieldboss_alarm.R
 
 class AlarmListAdapter: ListAdapter<Alarm, AlarmListAdapter.AlarmViewHolder>(AlarmsComparator()) {
     // private lateinit var binding: RecyclerviewAlarmItemBinding

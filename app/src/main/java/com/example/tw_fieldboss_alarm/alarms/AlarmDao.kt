@@ -1,6 +1,7 @@
-package com.example.tw_fieldboss_alarm
+package com.example.tw_fieldboss_alarm.alarms
 
 import androidx.room.*
+import com.example.tw_fieldboss_alarm.alarms.Alarm
 import kotlinx.coroutines.flow.Flow
 
 @Dao

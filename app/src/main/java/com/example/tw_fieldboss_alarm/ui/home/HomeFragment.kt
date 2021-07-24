@@ -12,7 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.tw_fieldboss_alarm.FullscreenAlarm
+import com.example.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
 import com.example.tw_fieldboss_alarm.MainActivity
 import com.example.tw_fieldboss_alarm.R
 import com.example.tw_fieldboss_alarm.databinding.FragmentHomeBinding
@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
         }
 
         fullScreenNotificationButton.setOnClickListener {
-            val intent = Intent(context,FullscreenAlarm::class.java)
+            val intent = Intent(context, FullscreenAlarm::class.java)
             context?.startActivity(intent)
         }
 

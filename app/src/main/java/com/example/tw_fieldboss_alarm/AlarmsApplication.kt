@@ -3,6 +3,8 @@ package com.example.tw_fieldboss_alarm
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.example.tw_fieldboss_alarm.alarms.AlarmRepository
+import com.example.tw_fieldboss_alarm.alarms.AlarmRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

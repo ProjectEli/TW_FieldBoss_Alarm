@@ -47,7 +47,6 @@
 
 
 
-    <string name="high_priority_fullscreen_channel_id">high_priority_fullscreen_channel_id_string</string>
     <string name="fullscreen_alarm_action">fullscreen_alarm_action_string</string>
 
     <string name="normal_notification_channel_id">normal_notification_channel_id_string</string>

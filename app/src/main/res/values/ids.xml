@@ -26,7 +26,7 @@
     <item name="normal_notification_id" type="id"/>
     <item name="high_priority_fullscreen_notification_id" type="id"/>
     <item name="button_fullscreen_activity_home" type="id"/>
-
+    <item name="high_priority_fullscreen_channel_id" type="id" />
 
 
 </resources>

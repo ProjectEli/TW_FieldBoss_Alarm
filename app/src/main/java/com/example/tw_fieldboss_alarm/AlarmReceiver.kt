@@ -1,17 +1,13 @@
 package com.example.tw_fieldboss_alarm
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
-import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import com.example.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
 
 class AlarmReceiver : BroadcastReceiver() {
     // https://spriggan4.tistory.com/2
@@ -32,7 +28,7 @@ class AlarmReceiver : BroadcastReceiver() {
         Log.d("알람","알람 실행됨")
         // 자료 굿
         // http://batmask.net/index.php/2021/03/12/786/
-        val fullscreenIntent = Intent(context,FullscreenAlarm::class.java).apply {
+        val fullscreenIntent = Intent(context, FullscreenAlarm::class.java).apply {
             action = "fullscreen_activity"
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -42,7 +38,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         var builder =
             context?.let {context ->
-                NotificationCompat.Builder(context,context.getString(R.string.high_priority_fullscreen_channel_id))
+                NotificationCompat.Builder(context,context.resources.getResourceName(R.id.high_priority_fullscreen_channel_id))
                     .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
                     .setContentTitle(title)
                     .setContentText(text)

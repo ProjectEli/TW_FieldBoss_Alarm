@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tw_fieldboss_alarm.*
+import com.example.tw_fieldboss_alarm.alarms.Alarm
+import com.example.tw_fieldboss_alarm.alarms.AlarmViewModel
 import com.example.tw_fieldboss_alarm.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -63,9 +65,13 @@ class DashboardFragment : Fragment() {
             true -> alarmViewModel.alarmKeyList.forEach { alarmKey ->
                 AlarmsApplication.getPrefranceDataBoolean(alarmKey).let {
                     if (it) {
-                        alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.insert(Alarm(element))}
+                        alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.insert(
+                            Alarm(element)
+                        )}
                     } else {
-                        alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.delete(Alarm(element))}
+                        alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.delete(
+                            Alarm(element)
+                        )}
                     }
                 }
             }

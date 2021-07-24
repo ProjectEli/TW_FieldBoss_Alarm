@@ -3,27 +3,18 @@ package com.example.tw_fieldboss_alarm
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tw_fieldboss_alarm.databinding.ActivityMainBinding
-import com.example.tw_fieldboss_alarm.Prefs
-import com.example.tw_fieldboss_alarm.databinding.FragmentDashboardBinding
+import com.example.tw_fieldboss_alarm.alarms.AlarmViewModel
+import com.example.tw_fieldboss_alarm.alarms.AlarmViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -123,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             val fullScreenChannelDescription = "Full screen channel"
             val importanceFullscreenAlarm = NotificationManager.IMPORTANCE_HIGH
             val channelFullscreenAlarm = NotificationChannel(
-                getString(R.string.high_priority_fullscreen_channel_id),
+                this.resources.getResourceName(R.id.high_priority_fullscreen_channel_id),
                 fullScreenName,importanceFullscreenAlarm).apply {
                     description = fullScreenChannelDescription
             }
