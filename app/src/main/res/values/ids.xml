@@ -14,6 +14,7 @@
     <!--  layout/fragment_home.xml  -->
     <item name="text_home" type="id"/>
     <item name="button_notification_home" type="id"/>
+    <item name="button_show_notification_list" type="id"/>
 
     <!--  layout/fragment_dashboard.xml  -->
     <item name="nextAlarmList_dashboard" type="id"/>

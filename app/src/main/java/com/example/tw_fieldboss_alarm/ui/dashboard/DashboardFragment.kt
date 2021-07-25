@@ -62,9 +62,9 @@ class DashboardFragment : Fragment() {
 
     private fun populateAlarmList() {
         when (AlarmsApplication.getPrefranceDataBoolean(getString(R.string.enableAllAlarmSwitch)) ) {
-            true -> alarmViewModel.alarmKeyList.forEach { alarmKey ->
+            true -> alarmViewModel.bossList.forEach { alarmKey ->
                 AlarmsApplication.getPrefranceDataBoolean(alarmKey).let {
-                    if (it) {
+                    if (it) { // true이면
                         alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.insert(
                             Alarm(element)
                         )}

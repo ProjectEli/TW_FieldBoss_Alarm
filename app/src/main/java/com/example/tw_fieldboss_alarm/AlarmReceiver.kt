@@ -7,13 +7,14 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
 
 class AlarmReceiver : BroadcastReceiver() {
     // https://spriggan4.tistory.com/2
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
-            context?.getString(R.string.fullscreen_alarm_action) -> {
+            context!!.resources.getResourceName(R.id.high_priority_fullscreen_channel_id) -> {
                 if (context != null) {
                     val extras = intent?.extras
                     val title: String? = extras?.getString("title")
@@ -50,6 +51,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_HIGH) // max에서 high로 바꿈
                     .setContentIntent(fullscreenPendingIntent) // 클릭시 실행할 것
                     .setFullScreenIntent(fullscreenPendingIntent,true) // 그냥 나오는 것
+                    //.setTimeoutAfter(600000) // 10 min
             }
 
         with (context?.let { context -> NotificationManagerCompat.from(context) }) {

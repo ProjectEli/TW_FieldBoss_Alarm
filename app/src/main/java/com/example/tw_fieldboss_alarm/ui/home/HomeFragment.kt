@@ -1,8 +1,13 @@
 package com.example.tw_fieldboss_alarm.ui.home
 
+import android.app.AlarmManager
+import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +15,23 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
+import com.example.tw_fieldboss_alarm.AlarmInterface
 import com.example.tw_fieldboss_alarm.MainActivity
 import com.example.tw_fieldboss_alarm.R
 import com.example.tw_fieldboss_alarm.databinding.FragmentHomeBinding
+import com.example.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
 import com.google.android.material.snackbar.Snackbar
+import java.lang.ClassCastException
+import java.util.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
+    private lateinit var callback: AlarmInterface
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -44,6 +54,7 @@ class HomeFragment : Fragment() {
         val textView: TextView = binding.textHome
         val notificationButton = binding.buttonNotificationHome
         val fullScreenNotificationButton = binding.buttonFullscreenActivityHome
+        val showNotificationListButton = binding.buttonShowNotificationList
 
         // 텍스트 채우기
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
@@ -60,11 +71,41 @@ class HomeFragment : Fragment() {
         }
 
         fullScreenNotificationButton.setOnClickListener {
-            val intent = Intent(context, FullscreenAlarm::class.java)
-            context?.startActivity(intent)
+//            val intent = Intent(context, FullscreenAlarm::class.java)
+//            context?.startActivity(intent)
+            val timeZone: TimeZone = TimeZone.getTimeZone("Asia/Seoul")
+            val currentTime = System.currentTimeMillis()
+            val calendar: Calendar = Calendar.getInstance(timeZone).apply {
+                timeInMillis = currentTime
+            }
+            callback.setAlarm(calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                calendar.get(Calendar.SECOND)+5)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            showNotificationListButton.setOnClickListener {
+//                callback.printAlarmList()
+            }
+        } else {
+            showNotificationListButton.setOnClickListener {
+                val snackBar = Snackbar.make(binding.HomeLayout,"롤리팝 이상에서만 지원되는 기능입니다.",Snackbar.LENGTH_SHORT)
+                snackBar.setAction(R.string.undo_string, SnackBarUndoListener())
+                snackBar.show()
+                sendNotification()
+            }
         }
 
         return root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            callback = context as AlarmInterface
+        } catch (castException: ClassCastException) {
+            Log.d("캐스트 에러","클래스 캐스트 실패")
+        }
     }
 
     private fun sendNotification() {
