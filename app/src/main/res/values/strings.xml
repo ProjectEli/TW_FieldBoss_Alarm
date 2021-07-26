@@ -49,7 +49,6 @@
 
     <string name="fullscreen_alarm_action">fullscreen_alarm_action_string</string>
 
-    <string name="normal_notification_channel_id">normal_notification_channel_id_string</string>
     <string name="normal_notification_channel_name">샹단바 알림</string>
     <string name="normal_notification_channel_description">상단바 알림입니다.</string>
     <string name="undo_string">실행 취소</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tw_fieldboss_alarm">
+    package="com.tw_fieldboss_alarm">
 
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
-        android:name=".AlarmsApplication"
+        android:name="com.tw_fieldboss_alarm.AlarmsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TW_FieldBoss_Alarm">
         <activity
-            android:launchMode="singleTask"
-            android:name=".MainActivity"
+            android:name="com.tw_fieldboss_alarm.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,15 +22,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.fullscreenalarm.FullscreenAlarm"
-            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop"
+            android:name="com.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm"
+            android:parentActivityName="com.tw_fieldboss_alarm.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.tw_fieldboss_alarm.MainActivity" />
         </activity>
 
-        <receiver android:name=".AlarmReceiver" android:exported="true">
+        <receiver android:name="com.tw_fieldboss_alarm.AlarmReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>

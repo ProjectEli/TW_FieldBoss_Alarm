@@ -8,8 +8,7 @@
         android:id="@+id/TextView"
         style="@style/alarm_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/alarmColor"/>
+        android:layout_height="wrap_content"/>
         <!--    수정가능?-->
 
 </LinearLayout>
