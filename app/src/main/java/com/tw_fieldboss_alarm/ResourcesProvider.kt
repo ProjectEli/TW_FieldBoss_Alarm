@@ -1,6 +1,8 @@
 package com.tw_fieldboss_alarm
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 
 class ResourcesProvider(val context: Context) {
     companion object{

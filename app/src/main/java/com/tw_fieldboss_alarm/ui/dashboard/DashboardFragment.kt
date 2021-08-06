@@ -16,7 +16,6 @@ import com.tw_fieldboss_alarm.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
 
-    // private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentDashboardBinding? = null
     private val alarmViewModel: AlarmViewModel by activityViewModels()
 
@@ -26,7 +25,7 @@ class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("EliOnCreate","Fragment생성됨")
+        Log.d("EliOnCreate","Fragment 생성됨")
 
     }
 
@@ -36,7 +35,7 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("EliOnCreateView","View생성됨")
+        Log.d("EliOnCreateView","View 생성됨")
         _binding = FragmentDashboardBinding.inflate(layoutInflater) // 뒤보다 이게 먼저와야됨
         val recyclerView = binding.recyclerview
         recyclerView.adapter = alarmViewModel.adapter
@@ -65,7 +64,7 @@ class DashboardFragment : Fragment() {
         when (AlarmsApplication.getPrefranceDataBoolean(getString(R.string.enableAllAlarmSwitch)) ) {
             true -> alarmViewModel.bossList.forEach { alarmKey ->
                 AlarmsApplication.getPrefranceDataBoolean(alarmKey).let {
-                    if (it) { // true이면
+                    if (it) { // true 이면
                         alarmViewModel.alarmDetail[alarmKey]?.forEach { element-> alarmViewModel.insert(
                             Alarm(element)
                         )}

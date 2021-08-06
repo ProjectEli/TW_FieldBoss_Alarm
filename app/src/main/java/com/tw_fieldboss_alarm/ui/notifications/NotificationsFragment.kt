@@ -34,9 +34,7 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         val pref: Preference = findPreference(getString(R.string.version_info)) ?: return
-        if (pref != null) {
-            pref.title = BuildConfig.VERSION_NAME
-        }
+        pref.title = BuildConfig.VERSION_NAME
 
         if (activity != null) {
             val prefs = Prefs.with(requireActivity())
@@ -47,6 +45,7 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         super.onAttach(context)
         try {
             callback = context as AlarmInterface
+            Log.d("NotificationFragment.kt","callback 셋업됨")
         } catch (castException: ClassCastException) {
             Log.d("캐스트 에러","클래스 캐스트 실패")
         }
@@ -67,11 +66,89 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         val valueString = if (value!!) "켜짐" else "꺼짐"
 
         Toast.makeText(context,"$key 값이 ${valueString}으로 변경되었습니다.",Toast.LENGTH_SHORT).show()
-        if (key in alarmViewModel.bossList) {
-            alarmViewModel.alarmTimeMap[key]!!.forEach {
-                callback.setAlarm(it.hours,it.minutes) // second is automatically 0 by def in interface
+        val timeDifference = 9
+
+        if (key == "전체 알람 활성화") {
+            alarmViewModel.bossList.forEach{ bossName ->
+                alarmViewModel.alarmTimeMap[bossName]!!.forEach { alarmTime ->
+                    alarmViewModel.alarmTimeDifferenceStringList.forEach { alarmTimeDifferenceString ->
+                        val alarmMinuteDifference: Int = alarmViewModel.alarmTimeDifferenceMap[alarmTimeDifferenceString]!!
+                        if (value) {
+                            sharedPreferences.getBoolean(bossName,false).let { bossOn ->
+                                sharedPreferences.getBoolean(alarmTimeDifferenceString,false).let { alarmTimeDifferenceOn ->
+                                    if (bossOn && alarmTimeDifferenceOn) {
+                                        callback.setAlarm(alarmTime.hours,alarmTime.minutes-alarmMinuteDifference-timeDifference,
+                                            bossNameWithLocation = getString(alarmViewModel.bossMapWithLocationMap[bossName]!!),
+                                            timeDifference = alarmMinuteDifference+timeDifference)
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            callback.cancelAlarm(alarmTime.hours,alarmTime.minutes-alarmMinuteDifference-timeDifference)
+                        }
+                    }
+                }
             }
         }
+
+        // 필드보스에 있는거 켜고 끌 때
+        if (key in alarmViewModel.bossList) {
+            alarmViewModel.alarmTimeMap[key]!!.forEach {
+                alarmViewModel.alarmTimeDifferenceStringList.forEach { alarmTimeDifferenceString ->
+                    sharedPreferences.getBoolean(alarmTimeDifferenceString,true).let{ alarmTimeDifferenceOn ->
+                        if (alarmTimeDifferenceOn) {
+                            val alarmMinuteDifference: Int = alarmViewModel.alarmTimeDifferenceMap[alarmTimeDifferenceString]!!
+                            if (value) {
+                                callback.setAlarm(it.hours,it.minutes-alarmMinuteDifference-timeDifference,
+                                    bossNameWithLocation = getString(alarmViewModel.bossMapWithLocationMap[key]!!),
+                                    timeDifference = alarmMinuteDifference+timeDifference) // second is automatically 0 by def in interface
+                            }
+                            else {
+                                callback.cancelAlarm(it.hours,it.minutes-alarmMinuteDifference-timeDifference) // second is automatically 0 by def in interface
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (key in alarmViewModel.alarmTimeDifferenceStringList) {
+            val alarmMinuteDifference: Int = alarmViewModel.alarmTimeDifferenceMap[key]!!
+            alarmViewModel.bossList.forEach{ bossName ->
+                // boss on 되었는지 확인(루프 들어가기 전에 계산절약용)
+                sharedPreferences.getBoolean(bossName,true).let { bossOn ->
+                    if (bossOn) {
+                        alarmViewModel.alarmTimeMap[bossName]!!.forEach{
+                            if (value) {
+                                callback.setAlarm(it.hours,it.minutes-alarmMinuteDifference-timeDifference,
+                                    bossNameWithLocation = getString(alarmViewModel.bossMapWithLocationMap[bossName]!!),
+                                    timeDifference = alarmMinuteDifference+timeDifference) // second is automatically 0 by def in interface
+                            }
+                            else {
+                                callback.cancelAlarm(it.hours,it.minutes-alarmMinuteDifference-timeDifference) // second is automatically 0 by def in interface
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//
+//
+//        if (value) {
+//            if (key in alarmViewModel.bossList) {
+//                alarmViewModel.alarmTimeMap[key]!!.forEach {
+//                    callback.setAlarm(it.hours,it.minutes-timeDifference) // second is automatically 0 by def in interface
+//                }
+//            }
+//        }
+//        else {
+//            if (key in alarmViewModel.bossList) {
+//                alarmViewModel.alarmTimeMap[key]!!.forEach {
+//
+//                }
+//            }
+//        }
+
     }
 
 

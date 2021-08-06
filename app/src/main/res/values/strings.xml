@@ -24,7 +24,7 @@
     <string name="sperchend">스페르첸드 (아크론 지하요새)</string>
     <string name="sperchend_time">1, 4, 8, 16, 19, 23시</string>
     <string name="defense">프라바 방어전 (프라바 전초기지)</string>
-    <string name="defense_time">짝수 시(0, 2, 4 ... 22시)</string>
+    <string name="defense_time">짝수 시(0, 2, 4 … 22시)</string>
     <string name="alarm_time">알람 시간</string>
     <string name="alarm_10min">10분 전</string>
     <string name="alarm_5min">5분 전</string>
@@ -55,7 +55,7 @@
 
 
     <string name="defaultFailVersion">버전 정보 확인 불가</string>
-    <string name="nextAlarmList">다음 알람 목록</string>
+    <string name="nextAlarmList">알람 목록</string>
     <string name="notification_list">알람 목록 보기</string>
 
 </resources>
