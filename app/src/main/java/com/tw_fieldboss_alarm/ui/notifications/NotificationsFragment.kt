@@ -66,7 +66,7 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         val valueString = if (value!!) "켜짐" else "꺼짐"
 
         Toast.makeText(context,"$key 값이 ${valueString}으로 변경되었습니다.",Toast.LENGTH_SHORT).show()
-        val timeDifference = 9
+        val timeDifference = 0
 
         if (key == "전체 알람 활성화") {
             alarmViewModel.bossList.forEach{ bossName ->
