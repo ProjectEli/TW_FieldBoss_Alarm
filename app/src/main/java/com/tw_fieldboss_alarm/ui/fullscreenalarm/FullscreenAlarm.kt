@@ -106,13 +106,14 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
         Log.d("알람","$alarmTimeString 알람 취소됨")
     }
 
+    @SuppressLint("ScheduleExactAlarm", "MissingPermission")
     override fun setAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int, bossNameWithLocation: String, timeDifference: Int) {
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND
         alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
             //action = Intent.ACTION_CREATE_REMINDER
             action = resources.getResourceName(R.id.high_priority_fullscreen_channel_id)
-            putExtra("alarmBossName","${bossNameWithLocation}")
+            putExtra("alarmBossName", bossNameWithLocation)
             putExtra("alarmRemainingTime","${timeDifference}분 전")
         }.let { intent ->
             PendingIntent.getBroadcast(this,requestCode,intent,PendingIntent.FLAG_UPDATE_CURRENT)
@@ -178,6 +179,7 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this,MainActivity::class.java)

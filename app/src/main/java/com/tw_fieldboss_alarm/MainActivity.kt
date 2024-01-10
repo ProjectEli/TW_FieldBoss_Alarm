@@ -1,5 +1,6 @@
 package com.tw_fieldboss_alarm
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -92,6 +93,7 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
         }
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     override fun setAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int, bossNameWithLocation: String, timeDifference: Int) {
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND

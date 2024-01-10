@@ -1,20 +1,17 @@
 package com.tw_fieldboss_alarm
 
-import android.app.AlarmManager
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.content.pm.PackageManager
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.activityViewModels
-import com.tw_fieldboss_alarm.ResourcesProvider.Companion.context
-import com.tw_fieldboss_alarm.ResourcesProvider.Companion.getString
-import com.tw_fieldboss_alarm.alarms.AlarmViewModel
 import com.tw_fieldboss_alarm.ui.fullscreenalarm.FullscreenAlarm
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver(){
@@ -37,7 +34,8 @@ class AlarmReceiver : BroadcastReceiver(){
         }
     }
 
-    private fun fullscreenNotification(context: Context?,alarmBossName: String?, alarmRemainingTime: String?) {
+    @SuppressLint("MissingPermission")
+    private fun fullscreenNotification(context: Context?, alarmBossName: String?, alarmRemainingTime: String?) {
         Log.d("알람","알람 실행됨")
         // 자료 굿
         // http://batmask.net/index.php/2021/03/12/786/
@@ -52,7 +50,7 @@ class AlarmReceiver : BroadcastReceiver(){
             context,0,fullscreenIntent,PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder =
-            context?.let {it ->
+            context?.let {
                 NotificationCompat.Builder(it,it.resources.getResourceName(R.id.high_priority_fullscreen_channel_id))
                     .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
                     .setContentTitle(alarmBossName)
@@ -68,11 +66,28 @@ class AlarmReceiver : BroadcastReceiver(){
                     //.setTimeoutAfter(600000) // 10 min
             }
 
-        with (context?.let { it -> NotificationManagerCompat.from(it) }) {
+        with (context?.let { NotificationManagerCompat.from(it) }) {
             if (builder != null) {
+                if (context.let {
+                        ActivityCompat.checkSelfPermission(
+                            it,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
+                    } != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return
+                }
                 this?.notify(R.id.high_priority_fullscreen_notification_id,builder.build())
             }
         }
+
     }
 
 }

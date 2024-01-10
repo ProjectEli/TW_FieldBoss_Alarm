@@ -10,7 +10,7 @@ object Prefs {
 
     private var mPrefs: SharedPreferences? = null
 
-    fun getFileName(context: Context) : String {
+    private fun getFileName(): String {
         return "%{context.packageName}.prefs"
     }
 
@@ -18,7 +18,7 @@ object Prefs {
         if (mPrefs == null) {
             val appContext = context.applicationContext
             if (appContext != null) {
-                mPrefs = appContext.getSharedPreferences(getFileName(appContext), Context.MODE_PRIVATE)
+                mPrefs = appContext.getSharedPreferences(getFileName(), Context.MODE_PRIVATE)
             } else {
                 throw IllegalArgumentException("context.getApplicationContext() returned null")
             }

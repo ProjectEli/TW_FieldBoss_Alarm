@@ -23,24 +23,24 @@ class AlarmsApplication: Application() {
 
         fun getSharedPreferences(): SharedPreferences {
             if (_preferences == null) _preferences =
-                PreferenceManager.getDefaultSharedPreferences(_instance)
+                _instance?.let { PreferenceManager.getDefaultSharedPreferences(it) }
             return _preferences!!
         }
         //set methods
         fun setPreferences(key: String?, value: String?) {
-            getSharedPreferences().edit().putString(key, value).commit()
+            getSharedPreferences().edit().putString(key, value).apply()
         }
 
         fun setPreferences(key: String?, value: Long) {
-            getSharedPreferences().edit().putLong(key, value).commit()
+            getSharedPreferences().edit().putLong(key, value).apply()
         }
 
         fun setPreferences(key: String?, value: Int) {
-            getSharedPreferences().edit().putInt(key, value).commit()
+            getSharedPreferences().edit().putInt(key, value).apply()
         }
 
         fun setPreferencesBoolean(key: String?, value: Boolean) {
-            getSharedPreferences().edit().putBoolean(key, value).commit()
+            getSharedPreferences().edit().putBoolean(key, value).apply()
         }
 
         //get methods

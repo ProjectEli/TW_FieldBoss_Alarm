@@ -1,5 +1,6 @@
 package com.tw_fieldboss_alarm.ui.fullscreenalarm
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -18,9 +19,10 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
         gestureDetector = GestureDetector(context, GestureListener())
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         try {
-            return gestureDetector.onTouchEvent(event)
+            return event?.let { gestureDetector.onTouchEvent(it) }!!
         } catch (e: Exception) {
             // Error 핸들링
         }
@@ -28,20 +30,20 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     }
 
     private inner class GestureListener: GestureDetector.SimpleOnGestureListener() {
-        override fun onDown(e: MotionEvent?): Boolean {
-            // return super.onDown(e)
-            return true
+        override fun onDown(e: MotionEvent): Boolean {
+            return super.onDown(e)
+
         }
 
         override fun onFling(
             e1: MotionEvent?,
-            e2: MotionEvent?,
+            e2: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
             var result = false
             try {
-                val diffY: Float = e2!!.y - e1!!.y
+                val diffY: Float = e2.y - e1!!.y
                 val diffX: Float = e2.x - e1.x
                 if (abs(diffX) > abs(diffY)) {
                     if (abs(diffX) > swipeXThresholds && abs(velocityX) > swipeYThresholds) {

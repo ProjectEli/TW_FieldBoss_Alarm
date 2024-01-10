@@ -37,7 +37,7 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         pref.title = BuildConfig.VERSION_NAME
 
         if (activity != null) {
-            val prefs = Prefs.with(requireActivity())
+            Prefs.with(requireActivity())
         }
     }
 
@@ -53,12 +53,12 @@ class NotificationsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 
     override fun onResume() {
         super.onResume()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

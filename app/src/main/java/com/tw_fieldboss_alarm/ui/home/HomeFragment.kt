@@ -1,26 +1,15 @@
 package com.tw_fieldboss_alarm.ui.home
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.tw_fieldboss_alarm.AlarmInterface
-import com.tw_fieldboss_alarm.MainActivity
-import com.tw_fieldboss_alarm.R
 import com.tw_fieldboss_alarm.databinding.FragmentHomeBinding
-import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -39,14 +28,14 @@ class HomeFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         // 먼저 inflate 를 하고 나중에 LiveData 로 모니터링한다.
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         // UI components 목록
-        val textView: TextView = binding.textHome
+        binding.textHome
 //        val notificationButton = binding.buttonNotificationHome
 //        val fullScreenNotificationButton = binding.buttonFullscreenActivityHome
 //        val showNotificationListButton = binding.buttonShowNotificationList
@@ -102,36 +91,6 @@ class HomeFragment : Fragment() {
             Log.d("HomeFragment.kt","callback 셋업됨")
         } catch (castException: ClassCastException) {
             Log.d("캐스트 에러","클래스 캐스트 실패")
-        }
-    }
-
-    private fun sendNotification() {
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-
-        val builder =
-            context?.let { context ->
-                NotificationCompat.Builder(context, context.resources.getResourceName(R.id.normal_notification_channel_id))
-                    .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
-                    .setContentTitle("[베리넨 루미] 골론")
-                    .setContentText("1분 전!!! 베리넨 루미로 가세요! 어서!") // lower API level or 확장전 한줄알림
-                    .setStyle(NotificationCompat.BigTextStyle() // higher API level
-                        .bigText("1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요! 1분 전!!! 베리넨 루미로 가세요!"))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    // Set the intent that will fire when the user taps the notification
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
-//                        .setFullScreenIntent(fullScreenPendingIntent, true)
-            }
-        with (context?.let { context -> NotificationManagerCompat.from(context) }) {
-            if (builder != null) {
-                this?.notify(R.id.normal_notification_id, // 일회성임. 이걸 저장해야 나중에 알람 추적 가능
-                    builder.build())
-            }
         }
     }
 
