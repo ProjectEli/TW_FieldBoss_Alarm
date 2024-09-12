@@ -7,18 +7,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
-import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
-import androidx.preference.PreferenceManager
 import com.tw_fieldboss_alarm.*
-import com.tw_fieldboss_alarm.AlarmsApplication.Companion.getSharedPreferences
 import com.tw_fieldboss_alarm.alarms.AlarmViewModel
 import com.tw_fieldboss_alarm.alarms.AlarmViewModelFactory
 import com.tw_fieldboss_alarm.databinding.ActivityFullscreenAlarmBinding
-import com.tw_fieldboss_alarm.ui.home.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,8 +66,8 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
 
     // https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager/28922621
     // Cancel 할 경우에도 requestcode 를 포함하여 완전히 같은걸로 만들어야 한다.
-    override fun cancelAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int) {
-        val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND
+    override fun cancelAlarm(hourOfDay: Int, minutes: Int, seconds: Int) {
+        val requestCode: Int = hourOfDay.times(10000) + minutes.times(100) + seconds
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
             //action = Intent.ACTION_CREATE_REMINDER
@@ -88,9 +82,9 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
         val currentTime = System.currentTimeMillis()
         val calendar: Calendar = Calendar.getInstance(timeZone).apply {
             timeInMillis = currentTime
-            set(Calendar.HOUR_OF_DAY,HOUR_OF_DAY)
-            set(Calendar.MINUTE,MINUTE)
-            set(Calendar.SECOND,SECOND)
+            set(Calendar.HOUR_OF_DAY,hourOfDay)
+            set(Calendar.MINUTE,minutes)
+            set(Calendar.SECOND,seconds)
         }
 
         // 시간 비교 후 알람시간이 미래가 될 때까지 계속 더함
@@ -107,9 +101,9 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
     }
 
     @SuppressLint("ScheduleExactAlarm", "MissingPermission")
-    override fun setAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int, bossNameWithLocation: String, timeDifference: Int) {
+    override fun setAlarm(hourOfDay: Int, minutes: Int, seconds: Int, bossNameWithLocation: String, timeDifference: Int) {
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND
+        val requestCode: Int = hourOfDay.times(10000) + minutes.times(100) + seconds
         alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
             //action = Intent.ACTION_CREATE_REMINDER
             action = resources.getResourceName(R.id.high_priority_fullscreen_channel_id)
@@ -123,9 +117,9 @@ class FullscreenAlarm : AppCompatActivity(), AlarmInterface{
         val currentTime = System.currentTimeMillis()
         val calendar: Calendar = Calendar.getInstance(timeZone).apply {
             timeInMillis = currentTime
-            set(Calendar.HOUR_OF_DAY,HOUR_OF_DAY)
-            set(Calendar.MINUTE,MINUTE)
-            set(Calendar.SECOND,SECOND)
+            set(Calendar.HOUR_OF_DAY,hourOfDay)
+            set(Calendar.MINUTE,minutes)
+            set(Calendar.SECOND,seconds)
         }
 
         // 시간 비교 후 알람시간이 미래가 될 때까지 계속 더함

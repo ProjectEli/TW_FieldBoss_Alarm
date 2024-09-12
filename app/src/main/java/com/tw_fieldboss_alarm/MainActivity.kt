@@ -6,7 +6,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -94,13 +93,13 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
     }
 
     @SuppressLint("ScheduleExactAlarm")
-    override fun setAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int, bossNameWithLocation: String, timeDifference: Int) {
+    override fun setAlarm(hourOfDay: Int, minutes: Int, seconds: Int, bossNameWithLocation: String, timeDifference: Int) {
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND
+        val requestCode: Int = hourOfDay.times(10000) + minutes.times(100) + seconds
         alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
             //action = Intent.ACTION_CREATE_REMINDER
             action = resources.getResourceName(R.id.high_priority_fullscreen_channel_id)
-            putExtra("alarmBossName","${bossNameWithLocation}")
+            putExtra("alarmBossName","$bossNameWithLocation")
             putExtra("alarmRemainingTime","${timeDifference}분 전")
         }.let { intent ->
             PendingIntent.getBroadcast(this,requestCode,intent,PendingIntent.FLAG_UPDATE_CURRENT)
@@ -110,12 +109,12 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
         val currentTime = System.currentTimeMillis()
         val calendar: Calendar = Calendar.getInstance(timeZone).apply {
             timeInMillis = currentTime
-            set(Calendar.HOUR_OF_DAY,HOUR_OF_DAY)
-            set(Calendar.MINUTE,MINUTE)
-            set(Calendar.SECOND,SECOND)
+            set(Calendar.HOUR_OF_DAY,hourOfDay)
+            set(Calendar.MINUTE,minutes)
+            set(Calendar.SECOND,seconds)
         }
 
-        // 시간 비교 후 알람시간이 미래가 될 때까지 계속 더함
+        // 시간 비교 후 알람 시간이 미래가 될 때까지 계속 더함
         // https://link2me.tistory.com/1719
         while (currentTime > calendar.timeInMillis) {
             calendar.timeInMillis += period
@@ -124,11 +123,11 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
         val simpleDateFormat = SimpleDateFormat("MM월 dd일 EEEE HH시 mm분", Locale.KOREA)
         val alarmTimeString = simpleDateFormat.format(calendar.timeInMillis)
 
-        // 알람시간관련 정확하게 하려면 setRepeating 으로는 안된다. setExact 로 하고 알람 표시하자마자 다음꺼 생성해야됨
+        // 알람 시간 관련 정확하게 하려면 setRepeating 으로는 안 된다. setExact 로 하고 알람 표시 하자마자 다음꺼 생성 해야 됨
         // https://superwony.tistory.com/99
         // setExact 에서는 nextAlarmClock 을 쓸 수가 없다.
         // https://stackoverflow.com/questions/31257252/alarmmanager-alarmclockinfo-getnextalarmclock-causes-nullpointerexception
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 도즈모드 대응
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 도즈 모드 대응
             Log.d("알람","$bossNameWithLocation ${timeDifference}분 전, ${alarmTimeString}으로 알람 셋업됨")
             alarmMgr.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -137,7 +136,7 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
             )
         }
         else {
-            alarmMgr.set( // 킷캣이하버전 대응
+            alarmMgr.set( // 킷캣 이하 버전 대응
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 alarmIntent
@@ -146,9 +145,9 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
     }
 
     // https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager/28922621
-    // Cancel 할 경우에도 requestcode 를 포함하여 완전히 같은걸로 만들어야 한다.
-    override fun cancelAlarm(HOUR_OF_DAY: Int, MINUTE: Int, SECOND: Int) {
-        val requestCode: Int = HOUR_OF_DAY.times(10000) + MINUTE.times(100) + SECOND
+    // Cancel 할 경우에도 request code 를 포함하여 완전히 같은 걸로 만들어야 한다.
+    override fun cancelAlarm(hourOfDay: Int, minutes: Int, seconds: Int) {
+        val requestCode: Int = hourOfDay.times(10000) + minutes.times(100) + seconds
         //        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
             //action = Intent.ACTION_CREATE_REMINDER
@@ -163,12 +162,12 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
         val currentTime = System.currentTimeMillis()
         val calendar: Calendar = Calendar.getInstance(timeZone).apply {
             timeInMillis = currentTime
-            set(Calendar.HOUR_OF_DAY,HOUR_OF_DAY)
-            set(Calendar.MINUTE,MINUTE)
-            set(Calendar.SECOND,SECOND)
+            set(Calendar.HOUR_OF_DAY,hourOfDay)
+            set(Calendar.MINUTE,minutes)
+            set(Calendar.SECOND,seconds)
         }
 
-        // 시간 비교 후 알람시간이 미래가 될 때까지 계속 더함
+        // 시간 비교 후 알람 시간이 미래가 될 때까지 계속 더함
         // https://link2me.tistory.com/1719
         while (currentTime > calendar.timeInMillis) {
             calendar.timeInMillis += period
@@ -189,37 +188,35 @@ class MainActivity : AppCompatActivity(),AlarmInterface {
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-            // normal notification
-            val channel = NotificationChannel( //앞쪽 name 은 하위호환용. null 넣어도 됨
-                resources.getResourceName(R.id.normal_notification_channel_id),
-                getString(R.string.normal_notification_channel_name),
-                NotificationManager.IMPORTANCE_DEFAULT)
-            .apply {
-                description = getString(R.string.normal_notification_channel_description)
-                setSound(null,null) // remove sound
-            }
-            // Register the channel with the system
+        // normal notification
+        val channel = NotificationChannel( //앞쪽 name 은 하위 호환용. null 넣어도 됨
+            resources.getResourceName(R.id.normal_notification_channel_id),
+            getString(R.string.normal_notification_channel_name),
+            NotificationManager.IMPORTANCE_DEFAULT)
+        .apply {
+            description = getString(R.string.normal_notification_channel_description)
+            setSound(null,null) // remove sound
+        }
+        // Register the channel with the system
 //            notificationManager.createNotificationChannel(channel)
 
-            // full screen notification
-            val channelFullscreenAlarm = NotificationChannel(
-                resources.getResourceName(R.id.high_priority_fullscreen_channel_id),
-                "fullScreenNotification",
-                NotificationManager.IMPORTANCE_HIGH)
-            .apply {
-                description = "Full screen channel"
-                setSound(null,null) // remove sound for importance high
-            }
+        // full screen notification
+        val channelFullscreenAlarm = NotificationChannel(
+            resources.getResourceName(R.id.high_priority_fullscreen_channel_id),
+            "fullScreenNotification",
+            NotificationManager.IMPORTANCE_HIGH)
+        .apply {
+            description = "Full screen channel"
+            setSound(null,null) // remove sound for importance high
+        }
 //            notificationManager.createNotificationChannel(channelFullscreenAlarm)
 
-            notificationManager.createNotificationChannels(mutableListOf(
-                channel,channelFullscreenAlarm
-            ))
-        }
+        notificationManager.createNotificationChannels(mutableListOf(
+            channel,channelFullscreenAlarm
+        ))
     }
 
     override fun onDestroy() {
