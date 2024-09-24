@@ -5,57 +5,13 @@
     <string name="title_dashboard">대시보드</string>
     <string name="title_notifications">알람 설정</string>
 
-
-
     <!--  Text displayed in layout/fragment_home.xml (locale dependent)  -->
     <string name="HomeViewString">홈 프래그먼트입니다.</string>
     <string name="notification_button">알림 보내기</string>
     <string name="fullscreen_notification_button">전체화면 알림 띄우기</string>
 
-    <!--  Text displayed in xml/alarm_preferences.xml (locale dependent)  -->
-    <string name="enableAllText">전체 알람 활성화/비활성화</string>
-    <string name="Fieldboss_type">필드보스 종류</string>
-    <string name="golon">골론 (베리넨 루미)</string>
-    <string name="golon_time">0, 6, 12, 18시</string>
-    <string name="golmodap">골모답 (베리넨 루미)</string>
-    <string name="golmodap_time">5, 13, 21시</string>
-    <string name="arkan">아칸 (아크론 요새)</string>
-    <string name="arkan_time">오후 2시 반, 9시 반</string>
-    <string name="sperchend">스페르첸드 (아크론 지하요새)</string>
-    <string name="sperchend_time">1, 4, 8, 16, 19, 23시</string>
-    <string name="defense">프라바 방어전 (프라바 전초기지)</string>
-    <string name="defense_time">짝수 시(0, 2, 4 … 22시)</string>
-    <string name="alarm_time">알람 시간</string>
-    <string name="alarm_10min">10분 전</string>
-    <string name="alarm_5min">5분 전</string>
-    <string name="alarm_3min">3분 전</string>
-    <string name="alarm_1min">1분 전</string>
-    <string name="version_info">버전 정보</string>
-
-    <!--  KeyStrings (no slash for keyStrings)  -->
-    <string name="enableAllAlarmSwitch">전체 알람 활성화</string>
-    <string name="golonSwitch">골론</string>
-    <string name="golmodapSwitch">골모답</string>
-    <string name="arkanSwitch">아칸</string>
-    <string name="sperchendSwitch">스페르첸드</string>
-    <string name="defenseSwitch">프라바 방어전</string>
-    <string name="alarm_10minSwitch">10분 전</string>
-    <string name="alarm_5minSwitch">5분 전</string>
-    <string name="alarm_3minSwitch">3분 전</string>
-    <string name="alarm_1minSwitch">1분 전</string>
-
-
-
-
-    <string name="fullscreen_alarm_action">fullscreen_alarm_action_string</string>
-
-    <string name="normal_notification_channel_name">샹단바 알림</string>
-    <string name="normal_notification_channel_description">상단바 알림입니다.</string>
-    <string name="undo_string">실행 취소</string>
-
-
-    <string name="defaultFailVersion">버전 정보 확인 불가</string>
-    <string name="nextAlarmList">알람 목록</string>
-    <string name="notification_list">알람 목록 보기</string>
+    <string name="authorInfo">필드보스 알람\nMade by [제르나]듀움</string>
+    <string name="setAlarmButton_text">알람 설정</string>
+    <string name="removeAlarmButton_text">알람 해제</string>
 
 </resources>

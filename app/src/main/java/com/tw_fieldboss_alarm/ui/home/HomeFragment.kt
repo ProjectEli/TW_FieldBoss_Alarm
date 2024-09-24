@@ -1,21 +1,21 @@
 package com.tw_fieldboss_alarm.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.tw_fieldboss_alarm.AlarmInterface
 import com.tw_fieldboss_alarm.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var callback: AlarmInterface
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,56 +30,29 @@ class HomeFragment : Fragment() {
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        // 먼저 inflate 를 하고 나중에 LiveData 로 모니터링한다.
+        // 먼저 inflate 를 하고 나중에 LiveData 로 모니터링 한다.
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         // UI components 목록
         binding.textHome
-//        val notificationButton = binding.buttonNotificationHome
-//        val fullScreenNotificationButton = binding.buttonFullscreenActivityHome
-//        val showNotificationListButton = binding.buttonShowNotificationList
 
-//        // 텍스트 채우기
-//        homeViewModel.text.observe(viewLifecycleOwner, {
-//            textView.text = getString(R.string.HomeViewString)
-//        })
-
-//        // onClickListener definitions
-//        notificationButton.setOnClickListener {
-//            val snackBar = Snackbar.make(binding.HomeLayout,"상단바 알림을 보냈습니다.",Snackbar.LENGTH_SHORT)
-//            snackBar.setAction(R.string.undo_string, SnackBarUndoListener())
-//            snackBar.show()
-//            sendNotification()
-//        }
-//
-//        fullScreenNotificationButton.setOnClickListener {
-////            val intent = Intent(context, FullscreenAlarm::class.java)
-////            context?.startActivity(intent)
-//            val timeZone: TimeZone = TimeZone.getTimeZone("Asia/Seoul")
-//            val currentTime = System.currentTimeMillis()
-//            val calendar: Calendar = Calendar.getInstance(timeZone).apply {
-//                timeInMillis = currentTime
-//            }
-//            callback.setAlarm(calendar.get(Calendar.HOUR_OF_DAY),
-//                calendar.get(Calendar.MINUTE),
-//                calendar.get(Calendar.SECOND)+5,
-//                getString(R.string.arkan),
-//                    53)
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            showNotificationListButton.setOnClickListener {
-////                callback.printAlarmList()
-//            }
-//        } else {
-//            showNotificationListButton.setOnClickListener {
-//                val snackBar = Snackbar.make(binding.HomeLayout,"롤리팝 이상에서만 지원되는 기능입니다.",Snackbar.LENGTH_SHORT)
-//                snackBar.setAction(R.string.undo_string, SnackBarUndoListener())
-//                snackBar.show()
-//                sendNotification()
-//            }
-//        }
+        // Button click listener binding
+        val setAlarmButton = binding.setAlarmButton
+        setAlarmButton.setOnClickListener {
+            val intent = Intent(AlarmClock.ACTION_SET_ALARM)
+            intent.putExtra(AlarmClock.EXTRA_HOUR, 9)
+            intent.putExtra(AlarmClock.EXTRA_MINUTES, 37)
+            intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true)
+            startActivity(intent)
+        }
+        val removeAlarmButton = binding.removeAlarmButton
+        removeAlarmButton.setOnClickListener {
+            val intent = Intent(AlarmClock.ACTION_DISMISS_ALARM)
+            intent.putExtra(AlarmClock.EXTRA_HOUR, 9)
+            intent.putExtra(AlarmClock.EXTRA_MINUTES, 37)
+            startActivity(intent)
+        }
 
         return root
     }
@@ -87,7 +60,6 @@ class HomeFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            callback = context as AlarmInterface
             Log.d("HomeFragment.kt","callback 셋업됨")
         } catch (castException: ClassCastException) {
             Log.d("캐스트 에러","클래스 캐스트 실패")

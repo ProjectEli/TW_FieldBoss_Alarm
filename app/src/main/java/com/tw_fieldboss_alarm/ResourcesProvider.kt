@@ -11,5 +11,4 @@ class ResourcesProvider(val context: Context) {
             return context.getString(stringId)
         }
     }
-
 }
